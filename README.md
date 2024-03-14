@@ -6,9 +6,8 @@ the batch job leader step would eventually launch the message handler which woul
 
 but over on the worker side, where all we have are some Handlers and filters on the JobRunr API side, would we then respond to the leader node about the status of the work? does JobRunr let us encode state and package it up to be delivered to the enqueuing thing? 
 
-* actuator: shows nothing special
-* localhost:8000: shows dashboard, which is super useful
+* `/actuator/health`: shows the details of the jobRunr, assuming you have enabled it (health show details in the `application.properties`)
+* `localhost:8000`: shows dashboard, which is super useful
 
-* what if i dont have a background server online? buy Pro!
-* what if i want to participate in the same DataSource transaction as JobRunr is? buy Pro!
-* 
+* what if I don't have a background server online? buy Pro!
+* what if I want to participate in the same `DataSource` transaction as JobRunr is? buy Pro!
