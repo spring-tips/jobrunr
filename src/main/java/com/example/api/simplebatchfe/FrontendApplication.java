@@ -1,9 +1,6 @@
-package com.example.api;
+package com.example.api.simplebatchfe;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.jobrunr.jobs.lambdas.JobRequest;
-import org.jobrunr.jobs.lambdas.JobRequestHandler;
+import com.example.api.SimpleBatchJobRequest;
 import org.jobrunr.scheduling.BackgroundJob;
 import org.jobrunr.scheduling.JobRequestScheduler;
 import org.jobrunr.storage.sql.postgres.PostgresStorageProvider;
@@ -15,18 +12,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportRuntimeHints;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-@ImportRuntimeHints(ApiApplication.Hints.class)
+@ImportRuntimeHints(FrontendApplication.Hints.class)
 @SpringBootApplication
-public class ApiApplication {
+public class FrontendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApiApplication.class, args);
+        SpringApplication.run(FrontendApplication.class, args);
     }
 
     static class Hints implements RuntimeHintsRegistrar {
@@ -44,45 +42,16 @@ public class ApiApplication {
         System.out.println(job.asUUID());
     }
 
-    @Component
-    public static class Callback implements JobRequestHandler<MyJobRequest> {
 
-        @Override
-        public void run(MyJobRequest jobRequest) throws Exception {
-            System.out.println("going to run with token [" + jobRequest.token() +
-                    "]");
-        }
-    }
-
-    public static class MyJobRequest implements JobRequest {
-
-
-        private final String token;
-
-        public String token() {
-            return token;
-        }
-
-        @JsonCreator
-        public MyJobRequest(@JsonProperty("token") String token) {
-            this.token = token;
-        }
-
-        @Override
-        public Class<? extends JobRequestHandler> getJobRequestHandler() {
-            return Callback.class;
-        }
-    }
 
     @Bean
     ApplicationRunner demo(JobRequestScheduler scheduler) {
         return args -> {
+            var jobId = scheduler.enqueue(new SimpleBatchJobRequest( "simpleJob" , Map.of("date" , new Date(),
+                    "fileName" , UUID.randomUUID() + ".csv") ));
+            System.out.println("enqueued work with jobID [" + jobId +
+                    "]  ");
 
-            var key = UUID.randomUUID().toString();
-            System.out.println("sending key [" + key +
-                    "]");
-            var jobId = scheduler.enqueue(new MyJobRequest(key));
-            System.out.println(jobId);
         };
     }
 
