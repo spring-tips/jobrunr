@@ -7,10 +7,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.Instant;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 @SpringBootApplication
 public class FrontendApplication {
 
     public static void main(String[] args) {
+        System.setProperty("org.jobrunr.dashboard.enabled", "true");
         SpringApplication.run(FrontendApplication.class, args);
     }
 
@@ -29,14 +34,19 @@ public class FrontendApplication {
     */
 
     private static void graalvm(JobRequestScheduler scheduler) {
-        var jobId = scheduler.enqueue(new SimpleJobRequest("Hello, world!"));
-        System.out.println("enqueued work with jobID [" + jobId + "]  ");
+        var asapJobId = scheduler.enqueue(new SimpleJobRequest("Hello, now!", false));
+        var failingJobId = scheduler.enqueue(new SimpleJobRequest("Hello, now!", true));
+        var scheduledJobId = scheduler.schedule(Instant.now().plus(30, TimeUnit.SECONDS.toChronoUnit()),
+                new SimpleJobRequest("Hello, later!", false));
+        Map.of( "failing", failingJobId, "asap", asapJobId, "scheduled", scheduledJobId).forEach((k, v) -> System.out.println(k + '=' + v));
     }
 
 
     @Bean
     ApplicationRunner demo(JobRequestScheduler scheduler) {
-        return args -> graalvm(scheduler);
+        return args -> {
+            graalvm(scheduler);
+        };
     }
 
 }
