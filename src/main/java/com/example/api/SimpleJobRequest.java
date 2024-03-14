@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.api.simplebg.SimpleJobRequestHandler;
+import com.example.api.simple.bg.SimpleJobRequestHandler;
 import org.jobrunr.jobs.lambdas.JobRequest;
 
 public record SimpleJobRequest(String message)

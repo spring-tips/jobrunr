@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.api.simplebatchbg.SimpleBatchJobRequestHandler;
+import com.example.api.simplebatch.bg.SimpleBatchJobRequestHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jobrunr.jobs.lambdas.JobRequest;
 import org.jobrunr.jobs.lambdas.JobRequestHandler;

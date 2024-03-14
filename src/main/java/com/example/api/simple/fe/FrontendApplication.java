@@ -1,4 +1,4 @@
-package com.example.api.simplefe;
+package com.example.api.simple.fe;
 
 import com.example.api.SimpleJobRequest;
 import org.jobrunr.scheduling.JobRequestScheduler;

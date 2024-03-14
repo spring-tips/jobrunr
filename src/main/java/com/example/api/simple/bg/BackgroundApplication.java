@@ -1,4 +1,4 @@
-package com.example.api.simplebg;
+package com.example.api.simple.bg;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

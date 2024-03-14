@@ -1,4 +1,4 @@
-package com.example.api.simplebatchbg;
+package com.example.api.simplebatch.bg;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

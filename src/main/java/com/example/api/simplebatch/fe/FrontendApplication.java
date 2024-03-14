@@ -1,4 +1,4 @@
-package com.example.api.simplebatchfe;
+package com.example.api.simplebatch.fe;
 
 import com.example.api.SimpleBatchJobRequest;
 import org.jobrunr.scheduling.BackgroundJob;
@@ -19,30 +19,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-@ImportRuntimeHints(FrontendApplication.Hints.class)
 @SpringBootApplication
 public class FrontendApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(FrontendApplication.class, args);
     }
-
-    static class Hints implements RuntimeHintsRegistrar {
-
-        @Override
-        public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-            Set.of(org.jobrunr.jobs.details.CachingJobDetailsGenerator.class,
-                    PostgresStorageProvider.class).forEach(cn ->
-                    hints.reflection().registerType(cn, MemberCategory.values()));
-        }
-    }
-
-    private static void jre() {
-        var job = BackgroundJob.<GreetingsService>enqueue(GreetingsService::doSomething);
-        System.out.println(job.asUUID());
-    }
-
-
 
     @Bean
     ApplicationRunner demo(JobRequestScheduler scheduler) {
@@ -55,11 +37,4 @@ public class FrontendApplication {
         };
     }
 
-    @Service
-    public static class GreetingsService {
-
-        public void doSomething() throws Exception {
-            System.out.println("something is happening!");
-        }
-    }
 }

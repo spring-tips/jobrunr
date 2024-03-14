@@ -1,4 +1,4 @@
-package com.example.api.simplebg;
+package com.example.api.simple.bg;
 
 import com.example.api.SimpleJobRequest;
 import org.jobrunr.jobs.lambdas.JobRequestHandler;
