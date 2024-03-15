@@ -5,7 +5,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import shared.SpringBatchLaunchingJobRequest;
+import shared.MyJobRequest;
 
 @SpringBootApplication
 public class LeaderApplication {
@@ -15,8 +15,11 @@ public class LeaderApplication {
     }
 
     @Bean
-    ApplicationRunner runner(JobRequestScheduler scheduler) {
-        return args -> System.out.println(
-                scheduler.enqueue(new SpringBatchLaunchingJobRequest()));
+    ApplicationRunner leader(JobRequestScheduler jobRequestScheduler) {
+        return args -> {
+            jobRequestScheduler.enqueue(new MyJobRequest("Spring fans"));
+        };
     }
+
+
 }
